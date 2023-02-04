@@ -75,7 +75,8 @@
               "browserTarget": "sportsbook:build:production"
             },
             "development": {
-              "browserTarget": "sportsbook:build:development"
+              "browserTarget": "sportsbook:build:development",
+              "proxyConfig": "src/proxy.config.json"
             }
           },
           "defaultConfiguration": "development"

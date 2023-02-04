@@ -6,12 +6,21 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SbliveService {
-  //private inplaySubject: WebSocketSubject<any> = new WebSocketSubject('undefined');
   private inplaySubject: WebSocketSubject<any>;
-  private sportsbookUrl: string = 'ws://ec2-18-130-236-146.eu-west-2.compute.amazonaws.com:8080/sportsbook';
+  //private inplaySubject: WebSocketSubject<any>;
+
+  //private sportsbookUrl: string = 'http://ec2-18-130-236-146.eu-west-2.compute.amazonaws.com:8080/sportsbook/';
+  private sportsbookUrl: string = 'ws://localhost:4200/websocket';
 
   constructor() {
-    this.inplaySubject = webSocket(this.sportsbookUrl);
+    /*
+    this.inplaySubject = webSocket({
+      url: this.sportsbookUrl,
+      protocol: 'websocket'
+    });
+    */
+
+    this.inplaySubject = webSocket('ws://localhost:4200/websocket');
   }
 
   getInplaySubject(): WebSocketSubject<any> {

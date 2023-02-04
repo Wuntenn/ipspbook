@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SbliveService } from 'src/app/services/sblive.service';
 import { Observable } from 'rxjs';
 import { WebSocketSubject } from 'rxjs/webSocket';
+import { RxStompService } from '@services/rxStomp/rxStomp.service';
 
 @Component({
   selector: 'app-inplay',
@@ -9,19 +10,23 @@ import { WebSocketSubject } from 'rxjs/webSocket';
   styleUrls: ['./inplay.component.sass']
 })
 export class InplayComponent implements OnInit {
-  private inplayEvent: WebSocketSubject<any>;
-
-  //constructor() { }
-  
-  constructor(private sbService: SbliveService) { 
-    this.inplayEvent = sbService.getInplaySubject();
-
-    // subscribe to the event
-    this.inplayEvent.asObservable().subscribe({
+  constructor(
+    private sbService: SbliveService,
+    private rxStompService: RxStompService
+  ) { 
+    // subscribe to the even
+    this.sbService.getInplaySubject().subscribe({
       next: msg => { console.log('Sportsbook msg: ', msg)},
-      error: msg => console.warn('Sportsbook msg: ', msg),
+      error: msg => console.log('Sportsbook msg: ', msg),
       complete: () => console.log('Sportsbook msg: ')
     });
+
+    this.rxStompService.watch('topic/inplay').subscribe({
+      next: msg => { console.log('Sportsbook msg: ', msg)},
+      error: msg => console.log('Sportsbook msg: ', msg),
+      complete: () => console.log('Sportsbook msg: ')
+    });
+
   }
 
   ngOnInit(): void {
