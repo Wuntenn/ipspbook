@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { RxStompService } from '@services/rxStomp/rxStomp.service';
+import { IMessage } from '@stomp/stompjs';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SbliveService {
-  private inplaySubject: WebSocketSubject<any>;
-  //private inplaySubject: WebSocketSubject<any>;
-
-  //private sportsbookUrl: string = 'http://ec2-18-130-236-146.eu-west-2.compute.amazonaws.com:8080/sportsbook/';
-  private sportsbookUrl: string = 'ws://localhost:4200/websocket';
-
-  constructor() {
-    /*
-    this.inplaySubject = webSocket({
-      url: this.sportsbookUrl,
-      protocol: 'websocket'
-    });
-    */
-
-    this.inplaySubject = webSocket('ws://localhost:4200/websocket');
+  constructor(private rxStompService: RxStompService) {
   }
 
-  getInplaySubject(): WebSocketSubject<any> {
-    return this.inplaySubject;
+  getInplayEvents(): Observable<IMessage> {
+    return this.rxStompService.watch('/topic/inplay');
+  }
+
+  getEventDetails(eventId: string): Observable<IMessage> {
+    const eventTopic = `/topic/event/${eventId}`;
+    return this.rxStompService.watch(eventTopic);
+  }
+
+  getMarketDetails(marketId: string): Observable<IMessage> {
+    const marketTopic = `/topic/market/${marketId}`;
+    return this.rxStompService.watch(marketTopic);
   }
 }

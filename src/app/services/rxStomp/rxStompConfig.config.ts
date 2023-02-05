@@ -1,16 +1,23 @@
 import { RxStompConfig } from '@stomp/rx-stomp';
+import * as SockJS from 'sockjs-client';
 
 export const myRxStompConfig: RxStompConfig = {
   // Which server?
-  //brokerURL: 'ws://ec2-18-130-236-146.eu-west-2.compute.amazonaws.com:8080/sportsbook',
-  brokerURL: 'ws://localhost:4200/websocket',
+  // brokerURL: 'http://ec2-18-130-236-146.eu-west-2.compute.amazonaws.com:8080/sportsbook',
+
+  //brokerURL: 'ws://localhost:4200/websocket',
+
+
+  webSocketFactory: function() {
+    return new SockJS('http://ec2-18-130-236-146.eu-west-2.compute.amazonaws.com:8080/sportsbook');
+  },
 
   // Headers
   // Typical keys: login, passcode, host
   /*
   connectHeaders: {
     login: 'guest',
-    passcode: 'guest',
+    passcode: 'guest'
   },
   */
 
@@ -22,7 +29,7 @@ export const myRxStompConfig: RxStompConfig = {
   // Wait in milliseconds before attempting auto reconnect
   // Set to 0 to disable
   // Typical value 500 (500 milli seconds)
-  reconnectDelay: 5000,
+  reconnectDelay: 30000,
 
   // Will log diagnostics on console
   // It can be quite verbose, not recommended in production
