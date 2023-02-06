@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SbliveService } from 'src/app/services/sblive.service';
-import { Observable } from 'rxjs';
+import { concat, concatAll, mergeMap, Observable, Subscription, switchMap, from, forkJoin, Subject, toArray, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { WebSocketSubject } from 'rxjs/webSocket';
-import { Message } from '@stomp/stompjs';
+import { IMessage } from '@stomp/stompjs';
+import { InplayEventId, InplayEvent } from '@app/SportsBookIntefaces'
 
 @Component({
   selector: 'app-inplay',
@@ -10,32 +12,72 @@ import { Message } from '@stomp/stompjs';
   styleUrls: ['./inplay.component.sass']
 })
 export class InplayComponent implements OnInit {
-  constructor(private sbLiveService: SbliveService) { 
+  private inplayEventIds: InplayEventId[] = []; 
+  private inplayEventDetails$: Observable<IMessage>[] = [];
+  public inplayEventDetailObj: InplayEvent[] = [];
+  public inplayEventsDetailsSubscription: Subscription[] = []; 
+  private inplayTopic: Subscription;
 
-    this.sbLiveService.getInplayEvents()
+
+  constructor(private sbLiveService: SbliveService) { 
+    // get back array of currently live event id's using
+    // switchmap to reset previous each time
+    this.inplayTopic = this.sbLiveService.getInplayEvents()
+      .pipe(
+        switchMap(msg => of(JSON.parse(msg.body))),
+      )
       .subscribe({
-        next: msg => console.log('Sportsbook msg: ', msg),
+        next: msg => {
+          console.log('Sportsbook inplay event ids: ', msg);
+
+          // Set array of current event Ids 
+          this.inplayEventIds = msg as InplayEventId[];
+
+          // Update the array of event details
+          this.updateInplayEvents();
+        },
         error: msg => console.log('Sportsbook msg: ', msg),
         complete: () => console.log('Sportsbook msg: ')
       });
-  
-    this.sbLiveService.getEventDetails('1')
-      .subscribe({
-        next: msg => console.log('Events msg: ', msg),
-        error: msg => console.log('Events msg: ', msg),
-        complete: () => console.log('Events msg: ')
-      });
-    
-    this.sbLiveService.getMarketDetails('101')
-      .subscribe({
-        next: msg => console.log('Market msg: ', msg),
-        error: msg => console.log('Market msg: ', msg),
-        complete: () => console.log('Market msg: ')
-      });
- 
   }
 
   ngOnInit(): void {
+
   }
 
+  ngOnDestroy(): void {
+    this.inplayTopic.unsubscribe();
+  }
+
+  // Add new event subscription
+  updateInplayEvents() {
+    this.inplayEventIds.forEach((id: any, idx: number)=> {
+      this.inplayEventDetails$[idx] = this.sbLiveService.getEventDetails(idx);
+
+      // get all current event Id's
+      const EvIds = this.inplayEventIds.map(ev => ev.id);
+      
+      let subscription = this.inplayEventDetails$[idx]
+      //.pipe(filter(ipEv => EvIds.includes(ipEv.body.id)))
+      .subscribe({
+        next: msg => {
+          console.log('Events msg: ', JSON.parse(msg.body))
+          this.inplayEventDetailObj.push(JSON.parse(msg.body) as InplayEvent)
+          this.inplayEventDetailObj = this.inplayEventDetailObj.filter(ipEv => EvIds.includes(ipEv.id));
+        },
+        error: msg => console.log('Events msg: ', msg.body),
+        complete: () => console.log('Events msg: ')
+      });
+
+      this.inplayEventsDetailsSubscription[idx] = subscription;
+
+      // bundle the subscriptions to the root one so that we can teardown all the subs in one go 
+      if (idx > 0) this.inplayEventsDetailsSubscription[0].add(subscription);
+    });
+  }
+
+  // Clear all event subscriptions
+  clearEventDetailSubscription() {
+    this.inplayEventsDetailsSubscription[0].unsubscribe();
+  }
 }

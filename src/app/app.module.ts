@@ -9,13 +9,15 @@ import { MarketComponent } from '@components/market/market.component';
 
 import { RxStompService } from '@services/rxStomp/rxStomp.service';
 import { rxStompServiceFactory } from '@services/rxStomp/rxStomp.service.factory';
+import { InplayEventComponent } from './components/inplay/inplay-event/inplay-event.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InplayComponent,
     EventComponent,
-    MarketComponent
+    MarketComponent,
+    InplayEventComponent
   ],
   imports: [
     BrowserModule,
