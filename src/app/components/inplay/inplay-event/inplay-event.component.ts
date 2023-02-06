@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { InplayEvent } from '@app/SportsBookIntefaces'
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-inplay-event',
@@ -7,11 +8,7 @@ import { InplayEvent } from '@app/SportsBookIntefaces'
   styleUrls: ['./inplay-event.component.sass']
 })
 export class InplayEventComponent implements OnInit {
-  @Input() eventId?: InplayEvent['id'];
-  @Input() homeTeam?: InplayEvent['hometeam'];
-  @Input() awayTeam?: InplayEvent['awayteam'];
-  @Input() homeScore?: InplayEvent['homescore'];
-  @Input() awayScore?: InplayEvent['awayscore'];
+  @Input() inplayEvent?: InplayEvent;
 
   constructor() { }
 

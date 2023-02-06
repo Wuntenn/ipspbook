@@ -1,1 +1,10 @@
-<p>inplay-event works!</p>
+<div>
+  <span>EventId: {{ inplayEvent?.id}}</span>
+  <span>HomeTeam: {{inplayEvent?.homeTeam}}</span>
+  <span>AwayTeam: {{inplayEvent?.awayTeam}}</span>
+  <span>homeScore: {{inplayEvent?.homeScore}}</span>
+  <span>AwayScore: {{inplayEvent?.awayScore}}</span>
+  <a href="/market/{{inplayEvent?.marketId}}">
+    <span> Go >>>>>></span>
+  </a>
+</div>

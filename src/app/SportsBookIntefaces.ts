@@ -4,11 +4,11 @@ export interface InplayEventId {
 
 export interface InplayEvent {
   id: number,
-  hometeam: string,
-  awayteam: string,
-  homescore: number,
-  awayscore: number,
-  marketid: number
+  homeTeam: string,
+  awayTeam: string,
+  homeScore: number,
+  awayScore: number,
+  marketId: number
 }
 
 export interface InplayMarket {

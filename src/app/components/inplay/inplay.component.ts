@@ -52,6 +52,7 @@ export class InplayComponent implements OnInit {
   // Add new event subscription
   updateInplayEvents() {
     this.inplayEventIds.forEach((id: any, idx: number)=> {
+      // reference to the details observable
       this.inplayEventDetails$[idx] = this.sbLiveService.getEventDetails(idx);
 
       // get all current event Id's
@@ -61,9 +62,14 @@ export class InplayComponent implements OnInit {
       //.pipe(filter(ipEv => EvIds.includes(ipEv.body.id)))
       .subscribe({
         next: msg => {
-          console.log('Events msg: ', JSON.parse(msg.body))
-          this.inplayEventDetailObj.push(JSON.parse(msg.body) as InplayEvent)
-          this.inplayEventDetailObj = this.inplayEventDetailObj.filter(ipEv => EvIds.includes(ipEv.id));
+          let curEl:InplayEvent = JSON.parse(msg.body);
+          console.log('Events msg: ', curEl);
+
+          const isExists = this.inplayEventDetailObj.filter(el => el.id === curEl.id).length > 0;
+          if(!isExists) {
+            this.inplayEventDetailObj.push(curEl as InplayEvent)
+            this.inplayEventDetailObj = this.inplayEventDetailObj.filter(ipEv => EvIds.includes(ipEv.id));
+          }
         },
         error: msg => console.log('Events msg: ', msg.body),
         complete: () => console.log('Events msg: ')
