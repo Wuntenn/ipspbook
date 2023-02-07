@@ -1,10 +1,24 @@
-<div>
-  <span>EventId: {{ inplayEvent?.id}}</span>
-  <span>HomeTeam: {{inplayEvent?.homeTeam}}</span>
-  <span>AwayTeam: {{inplayEvent?.awayTeam}}</span>
-  <span>homeScore: {{inplayEvent?.homeScore}}</span>
-  <span>AwayScore: {{inplayEvent?.awayScore}}</span>
-  <a href="/market/{{inplayEvent?.marketId}}">
-    <span> Go >>>>>></span>
-  </a>
-</div>
+<mat-card>
+    <mat-card-content>
+      <mat-grid-list cols="2" rowHeight="30px">
+        <mat-grid-tile>
+          <mat-chip-list>
+            <mat-chip>
+            {{inplayEvent?.homeTeam}} {{inplayEvent?.homeScore}} - 
+            {{inplayEvent?.awayTeam}} {{inplayEvent?.awayScore}}
+            </mat-chip>
+          </mat-chip-list>
+        </mat-grid-tile>
+        <mat-grid-tile rowspan="2">
+          <mat-card-actions>
+            <a href="/market/{{inplayEvent?.marketId}}">
+              <mat-icon class="example-icon" aria-hidden="false" aria-label="Go to market page" color="primary">arrow_circle_right</mat-icon>
+            </a>
+          </mat-card-actions>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+  </mat-card>
+
+
+

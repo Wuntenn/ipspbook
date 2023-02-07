@@ -5,8 +5,8 @@ import { EventComponent } from '@components/event/event.component';
 import { MarketComponent } from '@components/market/market.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'inplay' },
-  { path: 'inplay', component:InplayComponent },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'home', component:InplayComponent },
   { path: 'event', component: EventComponent },
   { path: 'market/:marketId', component: MarketComponent }
 ];

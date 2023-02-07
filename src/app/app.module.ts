@@ -12,6 +12,7 @@ import { rxStompServiceFactory } from '@services/rxStomp/rxStomp.service.factory
 import { InplayEventComponent } from './components/inplay/inplay-event/inplay-event.component';
 import { MarketEventComponent } from './components/market/market-event/market-event.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularMaterialModule } from '@config/material.module';
 
 @NgModule({
   declarations: [
@@ -20,12 +21,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     EventComponent,
     MarketComponent,
     InplayEventComponent,
-    MarketEventComponent
+    MarketEventComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AngularMaterialModule
   ],
   providers: [
     {
