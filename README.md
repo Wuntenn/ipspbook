@@ -5,14 +5,18 @@ The project currently meets the minimal functional threshold to display the data
 - WebSocket: via RxStomp with SockJS supplying the factory with the connection 
 - Basic Routing; and
 - display of Websocket topic data
+- Responsive layout
+- Aria Support where possible via Ng Materials
+
 
 There's lots of improvements that should be made:
 
-- Some clean-up should be done to remove unused code and configuration (for proxy and protocol upgrade)
 - The services could be a lot nicer and only return ready object data to be displayed
 - Better use of RxJS would allow this and maybe eliminate some of the length of the code whilst coercing the data
+
 - The data in the market view isn't updating dynamically as the data comes in:
     - The new data can be seen in the console.logs  
+
 - Content projection or auxiliary routes would allow me to present everything and remove need to navigate to a separate page for detail 
     - This would allow the details to be drilled into as seen on sports sites like: https://sports.br.betboo.com/pt-br/sports/futebol-4 
 
