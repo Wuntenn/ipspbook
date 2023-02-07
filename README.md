@@ -13,11 +13,10 @@ There's lots of improvements that should be made:
 - Better use of RxJS would allow this and maybe eliminate some of the length of the code whilst coercing the data
 - The data in the market view isn't updating dynamically as the data comes in:
     - The new data can be seen in the console.logs  
-- Auxiliary routes could be used to present a flatter layout removing the need for navigation to a new page for the market routes
+- Content projection or auxiliary routes would allow me to present everything and remove need to navigate to a separate page for detail 
     - This would allow the details to be drilled into as seen on sports sites like: https://sports.br.betboo.com/pt-br/sports/futebol-4 
-- A material design theme and component style would go a long way to making this project look more substantial
 
-Beyond this responsive layout, aria-support, font improvements, lazy-loading, and animations would take it to a nice releasable level 
+Beyond this lazy-loading, and animations would take it to a nice releasable level 
 
 
 
