@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./market.component.sass']
 })
 export class MarketComponent implements OnInit {
-  market$ : Observable<IMessage> = new Observable();
+  market?: InplayMarket;
   private markets: Subscription = new Subscription();
 
   constructor(
@@ -25,6 +25,7 @@ export class MarketComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('market component');
     this.markets = this.route.paramMap.pipe(map(params => {
       return this.sbliveService.getMarketDetails(Number(params.get('marketId')));
     }))
@@ -32,7 +33,11 @@ export class MarketComponent implements OnInit {
       switchMap(msg => msg) 
     )
     .subscribe({
-      next: msg => console.log('Market msg: ', msg),
+      next: msg => {
+        const marketEvent = JSON.parse(msg.body);
+        console.log('Market msg: ', marketEvent)
+        this.market = marketEvent as InplayMarket;
+      },
       error: msg => console.log('Market msg: ', msg),
       complete: () => console.log('Market msg: ')
     });

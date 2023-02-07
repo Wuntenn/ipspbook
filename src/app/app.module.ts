@@ -10,6 +10,7 @@ import { MarketComponent } from '@components/market/market.component';
 import { RxStompService } from '@services/rxStomp/rxStomp.service';
 import { rxStompServiceFactory } from '@services/rxStomp/rxStomp.service.factory';
 import { InplayEventComponent } from './components/inplay/inplay-event/inplay-event.component';
+import { MarketEventComponent } from './components/market/market-event/market-event.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { InplayEventComponent } from './components/inplay/inplay-event/inplay-ev
     InplayComponent,
     EventComponent,
     MarketComponent,
-    InplayEventComponent
+    InplayEventComponent,
+    MarketEventComponent
   ],
   imports: [
     BrowserModule,
